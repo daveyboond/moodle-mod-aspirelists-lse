@@ -75,7 +75,7 @@ class mod_aspirelists_mod_form extends moodleform_mod {
         // Check whether any lists were found; if not, report this in the Category box
         if (!$foundlist) {
             $shortnamelist = implode(',', $shortnames);
-            $options = array('null' => 'No lists found; try a different course code.');
+            $options = array('null' => get_string('error:nolistcat', 'aspirelists'));
         }
                 
         $mform->addElement('select', 'category', 'Category', $options, array('size'=>20));
