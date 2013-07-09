@@ -45,18 +45,19 @@ class mod_aspirelists_mod_form extends moodleform_mod {
         $options=array();
         $options['all']    = 'All';
 
-        if (!$readinglist = $DB->get_record('aspirelists', array('id'=>$this->_instance), '*', MUST_EXIST)) {
-            throw new Exception(get_string('cmunknown','error'));
-        }
-                
-        if (!empty($readinglist->shortnameoverride)) {
+        // Check if we're editing an existing list, and get shortname override if set
+        if ($readinglist = $DB->get_record('aspirelists', array('id'=>$this->_instance), '*')
+            and !empty($readinglist->shortnameoverride)) {
+      
             $shortnames = array($readinglist->shortnameoverride);
         } else {
+            // Otherwise get the course code from the course short name
             $shortname_full = explode(' ', $COURSE->shortname);
             $shortnames = explode('/', strtolower($shortname_full[0]));
         }
         //-------------------------------------------------------
 
+        $foundlist = false;
         foreach ($shortnames as $shortname) {
             $url = "$config->baseurl/$config->group/$shortname/lists.json";
 
@@ -66,10 +67,17 @@ class mod_aspirelists_mod_form extends moodleform_mod {
                 $list_url = $data["$config->baseurl/$config->group/$shortname"]['http://purl.org/vocab/resourcelist/schema#usesList'][0]['value'];
                 $level = 0;
                 $d = aspirelists_getCats($list_url, $options, $level, $shortname);
+                $foundlist = true;
             }
 
         }
         
+        // Check whether any lists were found; if not, report this in the Category box
+        if (!$foundlist) {
+            $shortnamelist = implode(',', $shortnames);
+            $options = array('null' => 'No lists found; try a different course code.');
+        }
+                
         $mform->addElement('select', 'category', 'Category', $options, array('size'=>20));
 
         // add standard buttons, common to all modules
