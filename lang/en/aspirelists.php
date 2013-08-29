@@ -30,6 +30,7 @@ $string['shortnameoverride_help'] = 'If the shortname of this course does not co
     the course code for the list that you want to link to on Reading Lists @ LSE, you
     can enter a different course code here. You will need to save changes and return
     to this form in order to select a category from the list below.';
+$string['all'] = 'All';
 
 /*********************************
  *            Settings           * 

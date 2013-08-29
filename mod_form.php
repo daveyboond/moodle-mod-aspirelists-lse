@@ -68,36 +68,38 @@ class mod_aspirelists_mod_form extends moodleform_mod {
         } else {
             // Loop through each list for this course (different terms)
             foreach ($data["$config->baseurl/$config->group/$shortnamelc"]['http://purl.org/vocab/resourcelist/schema#usesList'] as $use) {
-                if(isset($use[0]['value'])) {
-                    $list_url = $use[0]['value'];
+                if(isset($use['value'])) {
+                    $list_url = $use['value'];
                     // If this list is private, make a record of the term title
+                    if (array_key_exists('http://purl.org/vocab/resourcelist/schema#visibility', $data[$list_url]) and
+                        $data[$list_url]['http://purl.org/vocab/resourcelist/schema#visibility'][0]['value'] == 'http://purl.org/vocab/resourcelist/schema#private') {
 
-                    if ($data[$list_url]['http://purl.org/vocab/resourcelist/schema#visibility'][0]['value'] == 'http://purl.org/vocab/resourcelist/schema#private') {
-                        $timePeriod = $data[$list_url]['http://lists.talis.com/schema/temp#hasTimePeriod']['value'];
+                        $timePeriod = $data[$list_url]['http://lists.talis.com/schema/temp#hasTimePeriod'][0]['value'];
                         $privatelists[] = $data[$timePeriod]['http://purl.org/dc/terms/title'][0]['value'];
                     }
+                    
                     $level = 0;
                     // Try to get categories (weeks) for this list and add them to the $options list
                     // If the list is private, nothing will be added to the options list
                     $d = aspirelists_getCats($list_url, $options, $level, $shortname);
                     $foundlist = true;
-                    // ** NEXT STEP ** Need to determine the difference between "no options because no lists"
-                    // and "no options because lists private". If private, give an option for "all", if
-                    // no lists, show the warning message instead.
                 }
             }
+            
+            $p = 0;
+            foreach ($privatelists as $privatelist) {
+                $p++;
+                $options["private$p"] = get_string('error:privatelist', 'aspirelists') . $privatelist;
+            }
+
+            if ($p == 0) $options['all'] = get_string('all', 'aspirelists');
+            
             // Check whether any lists were found; if not, report this in the Category box
             if (!$foundlist) {
                 $options = array('null' => get_string('error:nolistcat', 'aspirelists') . $shortname . '. ' . get_string('error:trydifferent', 'aspirelists'));
             }
         }
-
-        foreach ($privatelists as $privatelist) {
-            $options['null'] = get_string('error:privatelist', 'aspirelists') . $privatelist;
-        }
-        
-        array_unshift($options, 'All');
-        
+       
         $mform->addElement('select', 'category', 'Category', $options, array('size'=>20));
 
         // add standard buttons, common to all modules
