@@ -88,7 +88,7 @@ class mod_aspirelists_mod_form extends moodleform_mod {
             }
             // Check whether any lists were found; if not, report this in the Category box
             if (!$foundlist) {
-                $options = array('null' => get_string('error:nolistcat', 'aspirelists') .  . $shortname . '. ' . get_string('error:trydifferent', 'aspirelists'));
+                $options = array('null' => get_string('error:nolistcat', 'aspirelists') . $shortname . '. ' . get_string('error:trydifferent', 'aspirelists'));
             }
         }
 
