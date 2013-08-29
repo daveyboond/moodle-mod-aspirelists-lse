@@ -61,9 +61,11 @@ $string['config_timePeriod_ex'] = '2';
  *             Errors            * 
  *********************************/
 
-$string['error:nocourse'] = 'No course found for: ';
+$string['error:nocourse'] = 'No course found for ';
 $string['error:nolist'] = '<p>Sorry, you are unable to add a reading list resource to a course at this time. This error has occured because there does not seem to be a list for this module on the reading list system.</p>';
-$string['error:nolistcat'] = 'No lists found; try a different course code.';
+$string['error:nolistcat'] = 'No lists found in ';
+$string['error:privatelist'] = 'List is marked private, weeks cannot be retrieved for: ';
+$string['error:trydifferent'] = 'Try a different course code.';
 $string['error:studentnolist'] = '<p>Sorry, but the reading list resource is unavailable for this course.  This Moodle course is not yet linked to the resource lists system.  You may be able to find your list through searching the resource lists system, or you can consult your Moodle module or lecturer for further information.</p>';
 $string['error:staffnolist'] = '<p>Sorry, but the reading list resource is unavailable for this course.</p>';
 $string['error:defaultnolist'] = '<p>Sorry, but the reading list resource is unavailable for this course.<p>';
