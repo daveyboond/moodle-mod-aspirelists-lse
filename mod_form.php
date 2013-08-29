@@ -55,21 +55,34 @@ class mod_aspirelists_mod_form extends moodleform_mod {
             $shortname_full = explode(' ', $COURSE->shortname);
             $shortnames = explode('/', strtolower($shortname_full[0]));
         }
-        //-------------------------------------------------------
 
+        //-------------------------------------------------------
         $foundlist = false;
+        $privatelists = array();
         foreach ($shortnames as $shortname) {
             $url = "$config->baseurl/$config->group/$shortname/lists.json";
 
             $data = curlSource($url);
-
-            if(isset($data["$config->baseurl/$config->group/$shortname"]['http://purl.org/vocab/resourcelist/schema#usesList'][0]['value'])) {
-                $list_url = $data["$config->baseurl/$config->group/$shortname"]['http://purl.org/vocab/resourcelist/schema#usesList'][0]['value'];
-                $level = 0;
-                $d = aspirelists_getCats($list_url, $options, $level, $shortname);
-                $foundlist = true;
+var_dump($url);
+            // Loop through each list for this course (different terms)
+            foreach ($data["$config->baseurl/$config->group/$shortname"]['http://purl.org/vocab/resourcelist/schema#usesList'] as $use) {
+                if(isset($use[0]['value'])) {
+                    $list_url = $use[0]['value'];
+                    // If this list is private, make a record of the term title
+                    if ($data[$list_url]['http://purl.org/vocab/resourcelist/schema#visibility'][0]['value'] == 'http://purl.org/vocab/resourcelist/schema#private') {
+                        $timePeriod = $data[$list_url]['http://lists.talis.com/schema/temp#hasTimePeriod']['value'];
+                        $privatelists[] = $data[$timePeriod]['http://purl.org/dc/terms/title'][0]['value'];
+                    }
+                    $level = 0;
+                    // Try to get categories (weeks) for this list and add them to the $options list
+                    // If the list is private, nothing will be added to the options list
+                    $d = aspirelists_getCats($list_url, $options, $level, $shortname);
+                    $foundlist = true;
+                    // ** NEXT STEP ** Need to determine the difference between "no options because no lists"
+                    // and "no options because lists private". If private, give an option for "all", if
+                    // no lists, show the warning message instead.
+                }
             }
-
         }
         
         // Check whether any lists were found; if not, report this in the Category box

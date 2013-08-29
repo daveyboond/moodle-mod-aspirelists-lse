@@ -208,20 +208,13 @@ if($readinglist->category != 'all') {
         }
         $output .= '</ul>';
 
+        echo $output;
 
-        if ($output=='') {
-            echo aspirelists_resource_not_ready($context);
-        } else {
-           echo $output;
-        }
     } else {
         echo aspirelists_resource_not_ready($context);
     }
 
     echo $OUTPUT->footer();
-    if ($redirectpage != false){
-        redirect($redirectpage);
-    }
 
 }
 
@@ -234,7 +227,7 @@ function aspirelists_resource_not_ready($context){
     $output = "";
     $role = get_user_roles($context, $USER->id);
 
-    if(isset($role[1]) && ($role[1]->shortname == 'student' || $role[1]->shortname == 'sds_student')) {
+    if(isset($role[1]) && ($role[1]->shortname == 'student' || $role[1]->shortname == 'auditor')) {
         $output .= get_string('error:studentnolist', 'aspirelists');
     } else if (has_capability('moodle/course:update', $context)){
         $output .= get_string('error:staffnolist', 'aspirelists');
