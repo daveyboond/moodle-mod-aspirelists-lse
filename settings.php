@@ -37,5 +37,10 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('aspirelists/redirect',
         get_string('settings:redirect', 'aspirelists'), get_string('settings:configredirect', 'aspirelists'), 1));
 
+    $displayoptions = resourcelib_get_displayoptions(array(RESOURCELIB_DISPLAY_OPEN, RESOURCELIB_DISPLAY_NEW, RESOURCELIB_DISPLAY_POPUP));
+    $settings->add(new admin_setting_configselect('aspirelists/display',
+        get_string('displayselect', 'page'), get_string('displayselectexplain', 'page'),
+        array('value'=>RESOURCELIB_DISPLAY_NEW, 'adv'=>true), $displayoptions));
+    
     $settings->add(new admin_setting_configtext('aspirelists/modTimePeriod',get_string('config_timePeriod', 'aspirelists'),get_string('config_timePeriod_desc', 'aspirelists'),get_string('config_timePeriod_ex', 'aspirelists')));
 }

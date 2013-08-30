@@ -16,6 +16,7 @@
 defined('MOODLE_INTERNAL') || die;
 
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
+require_once("$CFG->libdir/resourcelib.php");
 
 class mod_aspirelists_mod_form extends moodleform_mod {
 
@@ -102,6 +103,9 @@ class mod_aspirelists_mod_form extends moodleform_mod {
        
         $mform->addElement('select', 'category', 'Category', $options, array('size'=>20));
 
+        $mform->addElement('select', 'display', get_string('displayselect', 'page'), resourcelib_get_displayoptions(array(RESOURCELIB_DISPLAY_OPEN, RESOURCELIB_DISPLAY_NEW)));
+        $mform->setDefault('display', RESOURCELIB_DISPLAY_NEW);
+                
         // add standard buttons, common to all modules
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();

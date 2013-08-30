@@ -82,10 +82,11 @@ $lists = array();
 
 //Check to see if a non-category option has been picked
 
-if($readinglist->category == 'all' or substr($readinglist->category, 0, 7) == 'private') {
+if(empty($readinglist->category) or $readinglist->category == 'all'
+    or substr($readinglist->category, 0, 7) == 'private') {
+
     // Display the main page for the course matching the shortname
     echo $OUTPUT->header();
-    echo $OUTPUT->heading("$readinglist->name", 2, 'aspirelists_main', '');
     
     $url = "$config->baseurl/$config->group/$shortnamelc.html";
     
@@ -95,9 +96,12 @@ if($readinglist->category == 'all' or substr($readinglist->category, 0, 7) == 'p
 } elseif ($readinglist->category == 'null') {
     // No course found
     echo "ERROR NO SUCH COURSE";
+    echo $OUTPUT->footer();
     
 } else {
     // Display the specific category within the list
+    echo $OUTPUT->header();
+        
     $url = $config->baseurl . '/sections/' . $readinglist->category;
 
     if(isset($CFG->aspirelists_resourcelist) && $CFG->aspirelists_resourcelist === true) {
