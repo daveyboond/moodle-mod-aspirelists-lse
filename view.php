@@ -73,7 +73,7 @@ $PAGE->set_pagelayout('admin');
 if (!empty($readinglist->shortnameoverride)) {
     $shortname = $readinglist->shortnameoverride;
 } else {
-    $shortname = $course->shortname;
+    $shortname = $course->idnumber;
 }
 $shortnamelc = strtolower($shortname);
 
@@ -86,8 +86,6 @@ if(empty($readinglist->category) or $readinglist->category == 'all'
     or substr($readinglist->category, 0, 7) == 'private') {
 
     // Display the main page for the course matching the shortname
-    echo $OUTPUT->header();
-    
     $url = "$config->baseurl/$config->group/$shortnamelc.html";
     
     // Just redirect to the Talis page for this shortname
@@ -95,17 +93,19 @@ if(empty($readinglist->category) or $readinglist->category == 'all'
    
 } elseif ($readinglist->category == 'null') {
     // No course found
-    echo "ERROR NO SUCH COURSE";
+    echo $OUTPUT->header();
+    echo get_string('error:nocourse', 'aspirelists') . $shortname . '. '
+        . get_string('error:trydifferent', 'aspirelists');
     echo $OUTPUT->footer();
     
 } else {
     // Display the specific category within the list
-    echo $OUTPUT->header();
-        
     $url = $config->baseurl . '/sections/' . $readinglist->category;
 
     if(isset($CFG->aspirelists_resourcelist) && $CFG->aspirelists_resourcelist === true) {
+        echo $OUTPUT->header();
         aspirelists_getResources($url);
+        echo $OUTPUT->footer();
     } else {
         redirect($url . '.html');
     }

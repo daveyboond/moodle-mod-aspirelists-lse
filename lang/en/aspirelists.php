@@ -19,6 +19,11 @@ defined('MOODLE_INTERNAL') || die();
  *            General            * 
  *********************************/
 
+$string['category'] = 'Category';
+$string['category_help'] = 'Select the category (week) to display from this menu. If
+    an entry reads "List is marked private", choosing this entry will only display the
+    top-level menu for all reading lists for this course. If you wish to display a
+    particular week or category, you will need to make your list public first.';
 $string['modulename'] = 'Reading lists';
 $string['modulenameplural'] = 'Reading lists';
 $string['newmodulename'] = 'Reading lists';
@@ -62,7 +67,7 @@ $string['config_timePeriod_ex'] = '2';
  *             Errors            * 
  *********************************/
 
-$string['error:nocourse'] = 'No course found for ';
+$string['error:nocourse'] = 'No course found on Talis Aspire for ';
 $string['error:nolist'] = '<p>Sorry, you are unable to add a reading list resource to a course at this time. This error has occured because there does not seem to be a list for this module on the reading list system.</p>';
 $string['error:nolistcat'] = 'No lists found in ';
 $string['error:privatelist'] = 'List is marked private, weeks cannot be retrieved for: ';

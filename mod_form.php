@@ -51,8 +51,8 @@ class mod_aspirelists_mod_form extends moodleform_mod {
       
             $shortname = $readinglist->shortnameoverride;
         } else {
-            // Otherwise get the course code from the course short name
-            $shortname = $COURSE->shortname;
+            // Otherwise get the course code from the course ID number
+            $shortname = $COURSE->idnumber;
         }
         $shortnamelc = strtolower($shortname);
         
@@ -67,6 +67,8 @@ class mod_aspirelists_mod_form extends moodleform_mod {
             // No such course
             $options = array('null' => get_string('error:nocourse', 'aspirelists') . $shortname);
         } else {
+            $options['all'] = get_string('all', 'aspirelists'); // Default 'all' option
+
             // Loop through each list for this course (different terms)
             foreach ($data["$config->baseurl/$config->group/$shortnamelc"]['http://purl.org/vocab/resourcelist/schema#usesList'] as $use) {
                 if(isset($use['value'])) {
@@ -86,14 +88,15 @@ class mod_aspirelists_mod_form extends moodleform_mod {
                     $foundlist = true;
                 }
             }
-            
+
             $p = 0;
             foreach ($privatelists as $privatelist) {
                 $p++;
                 $options["private$p"] = get_string('error:privatelist', 'aspirelists') . $privatelist;
             }
 
-            if ($p == 0) $options['all'] = get_string('all', 'aspirelists');
+            // Don't need an 'all' option in this case
+            if ($p > 0) unset($options['all']);
             
             // Check whether any lists were found; if not, report this in the Category box
             if (!$foundlist) {
@@ -102,7 +105,14 @@ class mod_aspirelists_mod_form extends moodleform_mod {
         }
        
         $mform->addElement('select', 'category', 'Category', $options, array('size'=>20));
-
+        $mform->addHelpButton('category', 'category', 'aspirelists');
+        
+        if (isset($options['private1'])) {
+            $mform->setDefault('category', 'private1');
+        } else {
+            $mform->setDefault('category', 'all');            
+        }
+        
         $mform->addElement('select', 'display', get_string('displayselect', 'page'), resourcelib_get_displayoptions(array(RESOURCELIB_DISPLAY_OPEN, RESOURCELIB_DISPLAY_NEW)));
         $mform->setDefault('display', RESOURCELIB_DISPLAY_NEW);
                 
@@ -112,6 +122,38 @@ class mod_aspirelists_mod_form extends moodleform_mod {
         return;
     }
 
+    private function sort_options($opts) {
+        // This takes so long that it times out. Probably this won't work. If there
+        // is a way to sort from the JSON that might be better.
+        $w = 1;
+        $foundnextgroup = false;
+        $foundanygroup = false;
+        $chunk = array();
+        $newopts = array();
+        while(!$foundanygroup) {
+            foreach ($opts as $key => $opt) {
+                if (preg_match('/[Ww]eek\s*(\d+)/', $opt, $matches)) {
+                    if ($matches[1] == $w) {
+                        $foundnextgroup = true;
+                        $foundanygroup = true;
+                        $chunk[$key] = $opt;
+                    } elseif ($foundnextgroup) {
+                        array_merge($newopts, $chunk);
+                        $chunk = array();
+                        $w++;
+                        break;
+                    }
+                } elseif ($foundnextgroup) {
+                        $chunk[$key] = $opt;              
+                }
+            }
+            if (!$foundnextgroup) {
+                break;
+            }
+            $foundnextgroup = false;
+        }
+        return $newopts;
+    }
 
 
 }
