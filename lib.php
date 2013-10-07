@@ -85,14 +85,16 @@ function aspirelists_delete_instance($id) {
     return true;
 }
 
+
 function aspirelists_get_types() {
     $readinglist = new object;
     $readinglist->modclass = MOD_CLASS_RESOURCE;
-    $readinglist->type="aspirelists&amp;type=readinglist";
+    $readinglist->type="aspirelists";
     $readinglist->typestr = "Reading list";
 
     return array($readinglist);
 }
+
 
 function aspirelists_check_reading_lists() {
     global $DB, $CFG, $COURSE;
