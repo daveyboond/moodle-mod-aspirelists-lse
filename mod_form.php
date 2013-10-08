@@ -65,7 +65,11 @@ class mod_aspirelists_mod_form extends moodleform_mod {
         $data = curlSource($url);
         if (is_null($data)) {
             // No such course
-            $options = array('null' => get_string('error:nocourse', 'aspirelists') . $shortname);
+            if (empty($shortnamelc)) {
+                $options = array('null' => get_string('error:nocourseid', 'aspirelists'));
+            } else {
+                $options = array('null' => get_string('error:nocourse', 'aspirelists') . $shortname);
+            }
         } else {
             $options['all'] = get_string('all', 'aspirelists'); // Default 'all' option
 

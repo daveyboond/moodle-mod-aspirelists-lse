@@ -26,6 +26,14 @@ $string['category_help'] = 'Select the category (week) to display from this menu
     particular week or category, you will need to make your list public first.';
 $string['modulename'] = 'Reading list';
 $string['modulenameplural'] = 'Reading lists';
+$string['modulename_help'] = 'This resource allows you to link to the reading lists for your course on Reading Lists @ LSE.
+    
+If your lists on Reading Lists @ LSE are <strong>not</strong> marked private, you can use this resource to link directly to a particular week or section of the list.
+
+If your list is marked private, you can only link to the course as a whole, and students will then have to navigate to the required week or section.
+
+<a href="http://clt.lse.ac.uk/moodle/creating-a-reading-list.php" target="_blank">More information about Reading Lists @ LSE</a>
+';
 $string['newmodulename'] = 'Reading list';
 $string['streamingvideo'] = 'Reading list';
 $string['pluginadministration'] = 'Reading list administration';
@@ -68,6 +76,7 @@ $string['config_timePeriod_ex'] = '2';
  *********************************/
 
 $string['error:nocourse'] = 'No course found on Talis Aspire for ';
+$string['error:nocourseid'] = 'No course ID specified in course settings.';
 $string['error:nolist'] = '<p>Sorry, you are unable to add a reading list resource to a course at this time. This error has occured because there does not seem to be a list for this module on the reading list system.</p>';
 $string['error:nolistcat'] = 'No lists found in ';
 $string['error:privatelist'] = 'List is marked private, weeks cannot be retrieved for: ';
