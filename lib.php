@@ -20,6 +20,7 @@ function aspirelists_supports($feature) {
         case FEATURE_GROUPS:                  return false;
         case FEATURE_GROUPINGS:               return false;
         case FEATURE_GROUPMEMBERSONLY:        return true;
+        case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
         case FEATURE_MOD_INTRO:               return true;
         case FEATURE_COMPLETION_TRACKS_VIEWS: return true;
         case FEATURE_GRADE_HAS_GRADE:         return false;
@@ -83,16 +84,6 @@ function aspirelists_delete_instance($id) {
     $DB->delete_records('aspirelists', array('id'=>$resource->id));
 
     return true;
-}
-
-
-function aspirelists_get_types() {
-    $readinglist = new object;
-    $readinglist->modclass = MOD_CLASS_RESOURCE;
-    $readinglist->type="aspirelists";
-    $readinglist->typestr = "Reading list";
-
-    return array($readinglist);
 }
 
 
