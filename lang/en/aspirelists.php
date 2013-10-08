@@ -24,12 +24,12 @@ $string['category_help'] = 'Select the category (week) to display from this menu
     an entry reads "List is marked private", choosing this entry will only display the
     top-level menu for all reading lists for this course. If you wish to display a
     particular week or category, you will need to make your list public first.';
-$string['modulename'] = 'Reading lists';
+$string['modulename'] = 'Reading list';
 $string['modulenameplural'] = 'Reading lists';
-$string['newmodulename'] = 'Reading lists';
-$string['streamingvideo'] = 'Reading lists';
-$string['pluginadministration'] = 'Reading lists administration';
-$string['pluginname'] = 'Reading lists';
+$string['newmodulename'] = 'Reading list';
+$string['streamingvideo'] = 'Reading list';
+$string['pluginadministration'] = 'Reading list administration';
+$string['pluginname'] = 'Reading list';
 $string['shortnameoverride'] = 'New course code';
 $string['shortnameoverride_help'] = 'If the shortname of this course does not contain
     the course code for the list that you want to link to on Reading Lists @ LSE, you
