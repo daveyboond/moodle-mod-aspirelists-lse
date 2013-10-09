@@ -96,7 +96,7 @@ class mod_aspirelists_mod_form extends moodleform_mod {
             $p = 0;
             foreach ($privatelists as $privatelist) {
                 $p++;
-                $options["private$p"] = get_string('error:privatelist', 'aspirelists') . $privatelist;
+                $options["private$p"] = get_string('error:privatelist', 'aspirelists') . $privatelist . get_string('error:clickhelp', 'aspirelists');
             }
 
             // Don't need an 'all' option in this case
