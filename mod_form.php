@@ -41,6 +41,7 @@ class mod_aspirelists_mod_form extends moodleform_mod {
         //-------------------------------------------------------
         // Additions by Steve Bond 20/06/13. Extra field for overriding shortname
         $mform->addElement('text', 'shortnameoverride', get_string('shortnameoverride','aspirelists'), array('maxlength' => 255, 'size' => 50));
+        $mform->setType('shortnameoverride', PARAM_TEXT);
         $mform->addHelpButton('shortnameoverride', 'shortnameoverride', 'aspirelists');
 
         $options=array();
@@ -50,9 +51,10 @@ class mod_aspirelists_mod_form extends moodleform_mod {
             and !empty($readinglist->shortnameoverride)) {
       
             $shortname = $readinglist->shortnameoverride;
-        } else {
-            // Otherwise get the course code from the course ID number
+        } else if (!empty($COURSE->idnumber)) {
             $shortname = $COURSE->idnumber;
+        } else {
+            $shortname = $COURSE->shortname;
         }
         $shortnamelc = strtolower($shortname);
         
@@ -66,7 +68,7 @@ class mod_aspirelists_mod_form extends moodleform_mod {
         if (is_null($data)) {
             // No such course
             if (empty($shortnamelc)) {
-                $options = array('null' => get_string('error:nocourseid', 'aspirelists'));
+                $options = array('null' => get_string('error:nocoursecode', 'aspirelists'));
             } else {
                 $options = array('null' => get_string('error:nocourse', 'aspirelists') . $shortname);
             }

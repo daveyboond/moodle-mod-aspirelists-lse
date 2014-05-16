@@ -57,7 +57,7 @@ $config = get_config('aspirelists');
 
 add_to_log($course->id, 'aspirelist', 'view', "view.php?id={$id}", '');
 
-$context = get_context_instance(CONTEXT_COURSE, $course->id);
+$context = context_course::instance($course->id);
 $PAGE->set_context($context);
 
 //Set page params and layout
@@ -69,11 +69,15 @@ $PAGE->navbar->add($course->shortname,"{$CFG->wwwroot}/course/view.php?id=$cours
 $PAGE->navbar->add(get_string('modulename', 'aspirelists'));
 $PAGE->set_pagelayout('admin');
 
-// Added by Steve Bond 21/06/13: Use shortname override
+// Added by Steve Bond: Use instance's course code override (field is still
+// called shortnameoverride, it's a legacy thing). Failing that use the course ID,
+// and if all else fails, use the course shortname
 if (!empty($readinglist->shortnameoverride)) {
     $shortname = $readinglist->shortnameoverride;
-} else {
+} else if (!empty($course->idnumber)) {
     $shortname = $course->idnumber;
+} else {
+    $shortname = $course->shortname;
 }
 $shortnamelc = strtolower($shortname);
 

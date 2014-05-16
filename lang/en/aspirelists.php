@@ -77,7 +77,7 @@ $string['config_timePeriod_ex'] = '2';
 
 $string['error:clickhelp'] = ' (Click help button for details.)';
 $string['error:nocourse'] = 'No course found on Talis Aspire for ';
-$string['error:nocourseid'] = 'No course ID specified in course settings.';
+$string['error:nocoursecode'] = 'No course code specified.';
 $string['error:nolist'] = '<p>Sorry, you are unable to add a reading list resource to a course at this time. This error has occured because there does not seem to be a list for this module on the reading list system.</p>';
 $string['error:nolistcat'] = 'No lists found in ';
 $string['error:privatelist'] = 'Private list: weeks cannot be retrieved for ';
