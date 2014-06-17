@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
  *            General            * 
  *********************************/
 
+$string['aspirelists:addinstance'] = 'Add reading list';
 $string['aspirelists:pub'] = 'Publish reading list';
 $string['category'] = 'Category';
 $string['category_help'] = 'Select the category (week) to display from this menu. If
